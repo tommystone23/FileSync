@@ -1,0 +1,3 @@
+{
+    "files": ["main.qml","FileListModel.qml","main.py","sslclient.py","controller.py","filelistmodel.py"]
+}
