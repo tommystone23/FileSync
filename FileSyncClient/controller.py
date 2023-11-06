@@ -7,11 +7,15 @@ from sslclient import SslClient
 class Controller(QObject):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.client = SslClient("127.0.0.1")
-        self.thread = QThread()
-        self.client.moveToThread(self.thread)
-        self.thread.started.connect(self.client.init)
-        self.thread.start()
+
+
+    @Slot(str, str, str)
+    def connect_host(self, host, username, password):
+        self.client = SslClient(host, username, password)
+        self.client_thread = QThread()
+        self.client.moveToThread(self.client_thread)
+        self.client_thread.started.connect(self.client.init)
+        self.client_thread.start()
 
     @Slot(str)
     def send_data(self, string):

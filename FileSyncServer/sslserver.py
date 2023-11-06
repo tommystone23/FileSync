@@ -7,16 +7,18 @@ from PySide6.QtNetwork import QSslCertificate, QSslKey, QSsl
 class SslServer(QTcpServer):
     def __init__(self, parent=None):
         super().__init__(parent)
-        key_file = QFile("../certs/client_local.key")
+        key_file = QFile("certs/client_local.key")
         key_file.open(QIODevice.ReadOnly)
         self.key = QSslKey(key_file.readAll(), QSsl.Rsa)
         key_file.close()
 
-        cert_file = QFile("../certs/client_local.pem")
+        cert_file = QFile("certs/client_local.pem")
         cert_file.open(QIODevice.ReadOnly)
         self.cert = QSslCertificate(cert_file.readAll())
         cert_file.close()
-        self.listen(QHostAddress.Any, 1234)
+        print("Listening for Connection")
+        if not self.listen(QHostAddress.Any, 1234):
+            print("Failed to listen for connections" + self.errorString())
 
     def incomingConnection(self, handle):
         if self.init_socket(handle):
@@ -25,16 +27,19 @@ class SslServer(QTcpServer):
             print("Unable to establish connection")
 
     def init_socket(self, handle):
-        self.socket = QSslSocket()
+        self.socket = QSslSocket(self)
         self.socket.sslErrors.connect(self.ssl_errors)
         if self.socket.setSocketDescriptor(handle):
             self.socket.setPrivateKey(self.key)
             self.socket.setLocalCertificate(self.cert)
             config = self.socket.sslConfiguration()
-            config.addCaCertificates("../certs/server_ca.pem")
+            config.addCaCertificates("certs/server_ca.pem")
             self.socket.setPeerVerifyMode(QSslSocket.VerifyPeer)
             self.socket.readyRead.connect(self.read_data)
             self.socket.startServerEncryption()
+            if not self.socket.waitForEncrypted():
+                print("Failed to make encrypted connection")
+                return False
             return True
         else:
             return False

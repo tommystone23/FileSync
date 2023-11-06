@@ -1,57 +1,42 @@
 # This Python file uses the following encoding: utf-8
-from PySide6.QtCore import QTimer, Slot, QObject, QMutex, QByteArray
-from PySide6.QtNetwork import QSslSocket, QSslConfiguration
+from PySide6.QtCore import QTimer, Slot, QObject, QMutex, QByteArray, QThread
+from controlconnection import ControlConnection
 
 
 class SslClient(QObject):
-    def __init__(self, host, parent=None):
+    def __init__(self, host, username, password, parent=None):
         super().__init__(parent)
         self.host = host
-        self.data_queue = []
-        self.mutex = QMutex()
+        self.username = username
+        self.password = password
 
     def init(self):
-        self.socket_connect()
+        self.control_connection = ControlConnection(self.host, self.username, self.password, self)
+        self.data_queue = []
+        self.mutex = QMutex()
         QTimer.singleShot(0, self.do_run_iteration)
 
     @Slot()
     def do_run_iteration(self):
-        if not self.socket.isOpen():
-            self.socket_connect()
+        if not self.control_connection.is_connected():
+            QThread.sleep(1)
+            if not self.control_connection.connect_host():
+                print("Failed to connect to host")
+            QTimer.singleShot(0, self.do_run_iteration)
+            return
+        
         self.mutex.lock()
         if len(self.data_queue):
             print("Write to Socket")
-            data = self.data_queue.pop(0)
-            self.socket.write(QByteArray(data))
+            data = self.data_queue[0]
+            if not self.control_connection.has_pending_commands():
+                self.control_connection.write_data(QByteArray(data))
+            self.data_queue.pop(0)
         self.mutex.unlock()
 
         QTimer.singleShot(0, self.do_run_iteration)
-
-    def socket_connect(self):
-        self.socket = QSslSocket(self)
-        self.socket.ignoreSslErrors()
-        config = self.socket.sslConfiguration()
-        config.addCaCertificates("../certs/client_ca.pem")
-        self.socket.setPrivateKey("../certs/server_local.key")
-        self.socket.setLocalCertificate("../../certificates/server_local.pem")
-        self.socket.setPeerVerifyMode(QSslSocket.VerifyPeer)
-        self.socket.sslErrors.connect(self.ssl_errors)
-        self.socket.readyRead.connect(self.read_data)
-        self.socket.connectToHostEncrypted(self.host, 1234)
-        if not self.socket.waitForEncrypted():
-            print(self.socket.errorString())
-
+        
     def write_data(self, data):
         self.mutex.lock()
         self.data_queue.append(data)
         self.mutex.unlock()
-
-    @Slot()
-    def read_data(self):
-        server_data = self.socket.readAll().data()
-        print(server_data)
-
-    @Slot()
-    def ssl_errors(self, errors):
-        print(errors)
-        self.socket.ignoreSslErrors()

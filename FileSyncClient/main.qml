@@ -20,6 +20,80 @@ Window {
         anchors.top: parent.top
         width: parent.width
         height: parent.height / 6
+        Button {
+            id: connect_button
+            text: "Connect"
+            onClicked: {
+                dialog.open()
+            }
+        }
+        Dialog {
+            id: dialog
+            title: "Connect To Server"
+            modal: true
+            property int content_height: height / 8
+            standardButtons: Dialog.Ok | Dialog.Cancel
+            width: main_window.width / 2
+            height: main_window.height / 2
+            x: (main_window.width - width) / 2
+            y: (main_window.height - height) / 2
+            Text {
+                id: device_text
+                text: "Device IP:"
+                height: dialog.content_height
+                width: dialog.width / 2
+                verticalAlignment: Text.AlignVCenter
+                leftPadding: dialog.width / 4
+            }
+            TextField {
+                id: device_input
+                placeholderText: "Device IP..."
+                width: dialog.width / 2
+                height: dialog.content_height
+                anchors.right: parent.right
+            }
+            Text {
+                id: username_text
+                text: "Username:"
+                height: dialog.content_height
+                width: dialog.width / 2
+                verticalAlignment: Text.AlignVCenter
+                leftPadding: dialog.width / 4
+                anchors.top: device_text.bottom
+            }
+            TextField {
+                id: username_input
+                placeholderText: "Username..."
+                width: dialog.width / 2
+                height: dialog.content_height
+                anchors.right: parent.right
+                anchors.top: device_input.bottom
+            }
+            Text {
+                id: password_text
+                text: "Password:"
+                height: dialog.content_height
+                width: dialog.width / 2
+                verticalAlignment: Text.AlignVCenter
+                leftPadding: dialog.width / 4
+                anchors.top: username_text.bottom
+            }
+            TextField {
+                id: password_input
+                placeholderText: "Password..."
+                width: dialog.width / 2
+                height: dialog.content_height
+                anchors.right: parent.right
+                echoMode: TextInput.Password
+                anchors.top: username_input.bottom
+            }
+            onAccepted: {
+                var host = device_input.text
+                var username = username_input.text
+                var password = password_input.text
+                controller.connect_host(host, username, password)
+            }
+        }
     }
 
     Item {

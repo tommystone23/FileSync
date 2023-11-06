@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 6.0.2, 2023-10-14T20:01:34. -->
+<!-- Written by QtCreator 6.0.2, 2023-11-06T13:24:58. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -94,7 +94,7 @@
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{057c5e24-d0f4-457f-bca3-45c6cf3b4d82}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">-1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
-   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">1</value>
+   <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.BuildConfigurationCount">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.DeployConfiguration.0">
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
@@ -116,16 +116,16 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/filelistmodel.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/filelistmodel.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/filelistmodel.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/tommy/projects/file_sync/FileSyncClient/filelistmodel.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/tommy/projects/file_sync/FileSyncClient/filelistmodel.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/tommy/projects/file_sync/FileSyncClient/filelistmodel.py</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{209a2231-0278-46e5-b08e-07d7419a0e5e}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/filelistmodel.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/tommy/projects/file_sync/FileSyncClient/filelistmodel.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/tommy/projects/file_sync/FileSyncClient</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.1">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -134,16 +134,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/main.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/main.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/main.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{209a2231-0278-46e5-b08e-07d7419a0e5e}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/main.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/tommy/projects/file_sync/FileSyncClient/sslclient.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/tommy/projects/file_sync/FileSyncClient/sslclient.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/tommy/projects/file_sync/FileSyncClient/sslclient.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/tommy/projects/file_sync/FileSyncClient/sslclient.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/tommy/projects/file_sync/FileSyncClient</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.2">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -152,16 +151,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/sslclient.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/sslclient.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/sslclient.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{209a2231-0278-46e5-b08e-07d7419a0e5e}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/sslclient.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/tommy/projects/file_sync/FileSyncClient/main.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/tommy/projects/file_sync/FileSyncClient/main.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/tommy/projects/file_sync/FileSyncClient/main.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/tommy/projects/file_sync/FileSyncClient/main.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/tommy/projects/file_sync/FileSyncClient</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.3">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -170,16 +168,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/controller.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/controller.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/controller.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{209a2231-0278-46e5-b08e-07d7419a0e5e}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient/controller.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/tommy/projects/file_sync/FileSyncClient/controller.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/tommy/projects/file_sync/FileSyncClient/controller.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/tommy/projects/file_sync/FileSyncClient/controller.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/tommy/projects/file_sync/FileSyncClient/controller.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/tommy/Documents/Sheridan_School_Work/Year_3/swe_principles/project_code/FileSyncClient</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/tommy/projects/file_sync/FileSyncClient</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">4</value>
   </valuemap>
