@@ -1,11 +1,11 @@
 # This Python file uses the following encoding: utf-8
 from PySide6.QtCore import QObject, Slot, SIGNAL, SLOT, QFile, QIODevice
-from PySide6.QtNetwork import QTcpServer, QHostAddress, QSslSocket
+from PySide6.QtNetwork import QTcpServer, QHostAddress
 from PySide6.QtNetwork import QSslCertificate, QSslKey, QSsl
-
+from controlconnection import ControlConnection
 
 class SslServer(QTcpServer):
-    def __init__(self, parent=None):
+    def __init__(self, port, parent=None):
         super().__init__(parent)
         key_file = QFile("certs/client_local.key")
         key_file.open(QIODevice.ReadOnly)
@@ -17,40 +17,13 @@ class SslServer(QTcpServer):
         self.cert = QSslCertificate(cert_file.readAll())
         cert_file.close()
         print("Listening for Connection")
-        if not self.listen(QHostAddress.Any, 1234):
-            print("Failed to listen for connections" + self.errorString())
+        if not self.listen(QHostAddress.Any, port):
+            print(self.errorString())
 
     def incomingConnection(self, handle):
-        if self.init_socket(handle):
-            print("Make connection")
+        # Just handle one incoming connection for now
+        self.control_connection = ControlConnection(self)
+        if self.control_connection.init(handle, self.key, self.cert):
+            print("Established connection")
         else:
             print("Unable to establish connection")
-
-    def init_socket(self, handle):
-        self.socket = QSslSocket(self)
-        self.socket.sslErrors.connect(self.ssl_errors)
-        if self.socket.setSocketDescriptor(handle):
-            self.socket.setPrivateKey(self.key)
-            self.socket.setLocalCertificate(self.cert)
-            config = self.socket.sslConfiguration()
-            config.addCaCertificates("certs/server_ca.pem")
-            self.socket.setPeerVerifyMode(QSslSocket.VerifyPeer)
-            self.socket.readyRead.connect(self.read_data)
-            self.socket.startServerEncryption()
-            if not self.socket.waitForEncrypted():
-                print("Failed to make encrypted connection")
-                return False
-            return True
-        else:
-            return False
-
-    @Slot()
-    def read_data(self):
-        client_data = self.socket.readAll().data()
-        print(client_data)
-        self.socket.write(client_data)
-
-    @Slot(str)
-    def ssl_errors(self, errors):
-        print(errors)
-        self.socket.ignoreSslErrors()

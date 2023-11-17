@@ -17,3 +17,8 @@ class DataConnection(QObject):
         if not self.data_socket.waitForEncrypted():
             print("Failed to make Control connection")
             return False
+
+    @Slot()
+    def ssl_errors(self, errors):
+        print(errors)
+        self.data_socket.ignoreSslErrors()

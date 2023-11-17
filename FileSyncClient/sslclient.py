@@ -1,9 +1,10 @@
 # This Python file uses the following encoding: utf-8
-from PySide6.QtCore import QTimer, Slot, QObject, QMutex, QByteArray, QThread
+from PySide6.QtCore import QTimer, Slot, QObject, QMutex, QByteArray, QThread, Signal
 from controlconnection import ControlConnection
 
 
 class SslClient(QObject):
+    disconnected = Signal()
     def __init__(self, host, username, password, parent=None):
         super().__init__(parent)
         self.host = host
@@ -12,6 +13,7 @@ class SslClient(QObject):
 
     def init(self):
         self.control_connection = ControlConnection(self.host, self.username, self.password, self)
+        self.control_connection.disconnected.connect(self.disconnected.emit)
         self.data_queue = []
         self.mutex = QMutex()
         QTimer.singleShot(0, self.do_run_iteration)
@@ -34,6 +36,7 @@ class SslClient(QObject):
             self.data_queue.pop(0)
         self.mutex.unlock()
 
+        QThread.sleep(1)
         QTimer.singleShot(0, self.do_run_iteration)
         
     def write_data(self, data):
