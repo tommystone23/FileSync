@@ -1,9 +1,12 @@
 from PySide6.QtCore import QObject, Signal
+from dataconnection import DataConnection
 
 class ResponseParser(QObject):
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super().__init__(parent)
         self.control_connection = parent
+        self.pending_commands = False
+        self.logged_in = False
 
     def parse_response(self, response):
         split_response = response.split(' ')
@@ -15,8 +18,6 @@ class ResponseParser(QObject):
         if code <= 0:
             return
         
-        pending_commands = False
-        logged_in = False
         error_string = None
         
         print(message)
@@ -24,13 +25,19 @@ class ResponseParser(QObject):
         # The requested action is being initiated, expect another 
         # reply before proceeding with a new command.
         if code >= 100 and code < 200:
-            pending_commands = True
+            self.pending_commands = True
+            if code == 150:
+                self.data_connection = DataConnection('127.0.0.1')
+                if not self.data_connection.init():
+                    self.data_connection.deleteLater()
+                    self.data_connection = None
+                self.data_connection.write()
         # The requested action has been successfully completed.
         elif code >= 200 and code < 300:
             # User logged in, proceed
             if code == 230:
-                logged_in = True
-            pending_commands = False
+                self.logged_in = True
+            self.pending_commands = False
         # The command has been accepted, but the requested action is on hold, 
         # pending receipt of further information.
         elif code >= 300 and code < 400:
@@ -48,20 +55,20 @@ class ResponseParser(QObject):
         elif code >= 400 and code < 500:
             # Invalid username or password
             if code == 430:
-                logged_in = False
+                self.logged_in = False
                 print(message)
                 # Should add some thread destruction 
                 # and stop connection attempts
                 self.control_connection.disconnected.emit()
 
-            pending_commands = False
+            self.pending_commands = False
             error_string = message
         # Syntax error, command unrecognized and the requested action did not take place. 
         # This may include errors such as command line too long.
         elif code >= 500 and code < 600:
-            pending_commands = False
+            self.pending_commands = False
         # Replies regarding confidentiality and integrity
         elif code >= 600 and code < 700:
-            pending_commands = False
+            self.pending_commands = False
 
-        return pending_commands, logged_in, error_string
+        return self.pending_commands, self.logged_in, error_string

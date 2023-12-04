@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 from PySide6 import QtQuick
 from PySide6.QtCore import Slot, QThread, QObject
-from sslclient import SslClient
+from ftpsclient import FTPSClient
 
 
 class Controller(QObject):
@@ -10,7 +10,7 @@ class Controller(QObject):
 
     @Slot(str, str, str)
     def connect_host(self, host, username, password):
-        self.client = SslClient(host, username, password)
+        self.client = FTPSClient(host, username, password)
         self.client.disconnected.connect(self.reset)
         self.client_thread = QThread()
         self.client.moveToThread(self.client_thread)
@@ -26,4 +26,4 @@ class Controller(QObject):
         # Clean up client connection
         self.client_thread.exit()
         self.client_thread.wait()
-        self.client = None
+        del self.client

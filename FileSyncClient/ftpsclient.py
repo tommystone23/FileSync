@@ -2,8 +2,7 @@
 from PySide6.QtCore import QTimer, Slot, QObject, QMutex, QByteArray, QThread, Signal
 from controlconnection import ControlConnection
 
-
-class SslClient(QObject):
+class FTPSClient(QObject):
     disconnected = Signal()
     def __init__(self, host, username, password, parent=None):
         super().__init__(parent)
@@ -33,7 +32,7 @@ class SslClient(QObject):
             data = self.data_queue[0]
             if not self.control_connection.has_pending_commands():
                 self.control_connection.write_data(QByteArray(data))
-            self.data_queue.pop(0)
+                self.data_queue.pop(0)
         self.mutex.unlock()
 
         QThread.sleep(1)
