@@ -10,6 +10,10 @@ class FileManager(QObject):
 
     def set_root_dir(self, dir):
         dir = self.base_dir + dir
+        print('Set root dir: ' + dir)
+        if not QDir.exists(QDir(dir)):
+            print('Creating dir: ' + dir)
+            self.create_dir(dir)
         self.root = dir
         self.dir_handler.setCurrent(dir)
     
@@ -26,12 +30,16 @@ class FileManager(QObject):
 
     def create_file(self, file):
         dir_path = self.dir_handler.currentPath()
-        file_path = dir_path + file
+        file_path = dir_path + '/' + file
+        print('Creating File: ' + file_path)
         file = QFile(file_path)
-        file.open(QIODevice.OpenModeFlag.WriteOnly)
+        if not file.open(QIODevice.OpenModeFlag.WriteOnly | QIODevice.OpenModeFlag.Append):
+            print('Failed to open file')
+            return QFile()
         return file
 
     def get_dir_list_json(self):
+        self.dir_handler.refresh()
         cur_dir = self.dir_handler.entryInfoList()
         entry_list = []
         for entry in cur_dir:

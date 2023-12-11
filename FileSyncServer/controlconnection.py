@@ -10,7 +10,7 @@ class ControlConnection(SecureConnection):
         
     def on_connected(self):
         self.cmd_exec = CommandExecuter(self)
-        self.cmd_exec.response_changed.connect(self.write_data)
+        self.cmd_exec.response.connect(self.write_data)
         self.data_connection = None
         self.get_credentials()
 

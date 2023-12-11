@@ -6,7 +6,6 @@ from dataconnection import DataConnection
 
 class CommandExecuter(QObject):
     response = Signal(str)
-    logged_in_changed = Signal()
     def __init__(self, parent=None):
         super().__init__(parent)
         self.control_connection = parent
@@ -82,9 +81,9 @@ class CommandExecuter(QObject):
         
         msg = '230 User logged in, proceed'
         print(msg)
+        self.response.emit(msg)
         self.logged_in = True
         self.handle_logged_in()
-        self.response.emit(msg)
 
     def handle_logged_in(self):
         if not self.logged_in:
@@ -94,18 +93,25 @@ class CommandExecuter(QObject):
         ret = self.manager.execute_query(root_query)
         root_dir = ret[0][0]
         self.file_manager.set_root_dir(root_dir)
+        # Send file list to client
+        msg = '\n212 ' + self.file_manager.get_dir_list_json()
+        self.response.emit(msg)
+
 
     def mkdir(self, parameter):
         self.file_manager.create_dir(parameter)
     
     def stor(self, parameter):
+        print("Opening Data Connection")
         self.data_connection = DataConnection(1235, self.file_manager, parameter, self)
         self.data_connection.response.connect(self.response.emit)
         self.data_connection.transfer_finished.connect(self.close_data_connection)
-        self.response.emit()
+        self.response.emit('150 File status okay; about to open data connection.')
 
     def list(self, parameter):
-        pass
+        dir_list_json = self.file_manager.get_dir_list_json()
+        msg = '212 ' + dir_list_json
+        self.response.emit(msg)
 
     def copy(self, parameter):
         pass
@@ -115,4 +121,8 @@ class CommandExecuter(QObject):
         pass
 
     def close_data_connection(self):
+        msg = '226 Closing data connection. Requested file action successful'
+        self.response.emit(msg)
+        msg = '\n212 ' + self.file_manager.get_dir_list_json()
+        self.response.emit(msg)
         self.data_connection = None
