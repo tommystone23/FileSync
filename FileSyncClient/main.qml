@@ -1,6 +1,5 @@
 import QtQuick 6.0
 import QtQuick.Window 6.0
-import Controller 1.0
 import QtQuick.Controls 2.6
 import Qt.labs.folderlistmodel 2.6
 
@@ -11,9 +10,6 @@ Window {
     visible: true
     title: qsTr("FileSync")
     property string file_prefix: "file://"
-    Controller {
-        id: controller
-    }
 
     Item {
         id: top_bar
@@ -91,8 +87,21 @@ Window {
                 var host = device_input.text
                 var username = username_input.text
                 var password = password_input.text
-                controller.connect_host(host, username, password)
+                //controller.connect_host(host, username, password)
+                controller.connect_host('127.0.0.1', 'admin', 'admin')
             }
+        }
+        Button {
+            id: send_data
+            anchors.right: parent.right
+            text: "Synchronize"
+            onClicked: controller.init_stor_cmd(folder_model.folder)
+        }
+        Button {
+            id: get_list
+            anchors.top: send_data.bottom
+            text: "Refresh"
+            onClicked: controller.get_dir_list()
         }
     }
 
@@ -108,7 +117,7 @@ Window {
         ListView {
             id: folder_view
             anchors.fill: parent
-            FileListModel {
+            FolderListModel {
                 id: folder_model
                 folder: file_prefix + "/home/tommy/"
                 showDirs: true
@@ -131,6 +140,30 @@ Window {
             }
             model: folder_model
             delegate: file_delegate
+        }
+    }
+
+    Item {
+        id: right_column
+        anchors {
+            left: left_column.right
+            bottom: parent.bottom
+            top: top_bar.bottom
+        }
+        width: parent.width / 2
+        ListView {
+            id: server_file_view
+            anchors.fill: parent
+            Component {
+                id: server_file_delegate
+                Button {
+                    id: button
+                    text: name
+                    width: parent.width
+                }
+            }
+            model: server_file_model
+            delegate: server_file_delegate
         }
     }
 }

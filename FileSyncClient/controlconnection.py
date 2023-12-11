@@ -1,6 +1,7 @@
-from PySide6.QtCore import QObject, Slot, QByteArray, Signal
+from PySide6.QtCore import QObject, Slot, QByteArray, Signal, QTimer, QFile, QIODevice, QElapsedTimer
 from PySide6.QtNetwork import QSslSocket
 from responseparser import ResponseParser
+from dataconnection import DataConnection
 
 class ControlConnection(QObject):
     disconnected = Signal()
@@ -14,7 +15,11 @@ class ControlConnection(QObject):
         self.error_string = None
         self.logged_in = False
         self.connection_socket = QSslSocket(self)
+        self.connection_socket.disconnected.connect(self.disconnected.emit)
         self.response_parser = ResponseParser(self)
+        self.cur_filename = None # Name of file being sent
+        self.bytes_written = 0
+        self.response_parser.data_connection_request.connect(self.handle_data_connection)
 
     def connect_host(self):
         self.connection_socket.ignoreSslErrors()
@@ -64,4 +69,43 @@ class ControlConnection(QObject):
     
     # Ready for new commands
     def has_pending_commands(self):
-        return not self.pending_commands
+        return self.pending_commands
+    
+    @Slot()
+    def handle_data_connection(self):
+        self.data_connection = DataConnection('127.0.0.1')
+        if not self.data_connection.init():
+            self.data_connection.deleteLater()
+            self.data_connection = None
+            error_string = 'Could not initiate data connection'
+            return self.pending_commands, self.logged_in, error_string
+        print('Data connection opened')
+        self.file = QFile(self.cur_filename)
+        print("File name: " + self.cur_filename)
+        if not self.file.open(QIODevice.OpenModeFlag.ReadOnly):
+            print("Failed to open file for reading")
+            return
+        self.cur_filename = None
+        self.timer = QElapsedTimer()
+        self.timer.start()
+        self.do_write_data()
+
+    # Write data to data connection
+    @Slot()
+    def do_write_data(self):
+        data_size = 1500
+        data = self.file.read(data_size)
+        self.bytes_written += data.size()
+        if data:
+            self.data_connection.write_data(data)
+            if self.timer.elapsed() >= 1000:
+                percentage = (self.bytes_written / self.file.size()) * 100
+                print(self.cur_filename + '... ' + str(percentage) + '%')
+            QTimer.singleShot(0, self.do_write_data)
+        else:
+            print('Closing Data Connection')
+            self.data_connection.deleteLater()
+            self.data_connection = None
+            self.timer = None
+            self.bytes_written = 0
+            self.file.close()
